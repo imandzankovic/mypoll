@@ -14,18 +14,25 @@ import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ContactComponent } from './contact/contact.component';
+import { FeaturesComponent } from './features/features.component';
+import { SolutionsComponent } from './solutions/solutions.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: '', component: AboutComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent},
+  { path: 'about', component: AboutComponent },
   { path: 'cats', component: CatsComponent },
   { path: 'contact', component: ContactComponent }, 
+  { path: 'features', component: FeaturesComponent },
+  { path: 'solutions', component: SolutionsComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuardAdmin] },
   { path: 'notfound', component: NotFoundComponent },
-  { path: '**', redirectTo: '/notfound' },
+  { path: '**', redirectTo: '/notfound' }
 ];
 
 @NgModule({

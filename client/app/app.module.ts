@@ -22,6 +22,9 @@ import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ContactComponent } from './contact/contact.component';
 import { FooterComponent } from './footer/footer.component';
+import { FeaturesComponent } from './features/features.component';
+import { SolutionsComponent } from './solutions/solutions.component';
+import { HomeComponent } from './home/home.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -39,7 +42,10 @@ export function tokenGetter() {
     AdminComponent,
     NotFoundComponent,
     ContactComponent,
-    FooterComponent
+    FooterComponent,
+    FeaturesComponent,
+    SolutionsComponent,
+    HomeComponent
   ],
   imports: [
     AppRoutingModule,

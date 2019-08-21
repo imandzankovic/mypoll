@@ -1,9 +1,7 @@
 <div class="container">
-
   <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-    <button class="navbar-toggler" type="button"
-            data-toggle="collapse" data-target="#navbar-supported-content"
-            aria-controls="navbar-supported-content" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-supported-content"
+      aria-controls="navbar-supported-content" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbar-supported-content">
@@ -21,6 +19,11 @@
         <li class="nav-item">
           <a routerLink="/contact" class="nav-link" routerLinkActive="active">
             <i class="fa fa-list"></i> Contact
+          </a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/solutions" class="nav-link" routerLinkActive="active">
+            <i class="fa fa-list"></i> Solutions
           </a>
         </li>
         <li class="nav-item">
@@ -51,23 +54,6 @@
       </ul>
     </div>
   </nav>
-
-  <!-- <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-    <div class="container"><a class="navbar-brand logo" href="index.html">MYPo</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse"
-            id="navcol-1">
-            <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item" role="presentation"></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="features.html">Features</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="service-page.html">SERVICES</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="blog-post-list.html">BLOG</a></li>
-                <li class="nav-item" role="presentation"><a class="nav-link" href="pricing.html">Pricing</a></li>
-                <li class="nav-item" role="presentation"></li>
-                <li class="nav-item" role="presentation"></li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
   <router-outlet></router-outlet>
 
 </div>
