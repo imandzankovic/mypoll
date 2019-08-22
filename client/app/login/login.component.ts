@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.auth.loggedIn) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/user-dashboard']);
     }
     this.loginForm = this.formBuilder.group({
       email: this.email,
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.auth.login(this.loginForm.value).subscribe(
-      res => this.router.navigate(['/']),
+      res => this.router.navigate(['/user-dashboard']),
       error => this.toast.setMessage('invalid email or password!', 'danger')
     );
   }

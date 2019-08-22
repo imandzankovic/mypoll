@@ -17,6 +17,12 @@ import { ContactComponent } from './contact/contact.component';
 import { FeaturesComponent } from './features/features.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { HomeComponent } from './home/home.component';
+import { BlogComponent } from './blog/blog.component';
+import { BlogPostComponent } from './blog/blog-post/blog-post.component';
+import { PricingComponent } from './pricing/pricing.component';
+import { PaymentComponent } from './pricing/payment/payment.component';
+import { FaqComponent } from './faq/faq.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -26,6 +32,12 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent }, 
   { path: 'features', component: FeaturesComponent },
   { path: 'solutions', component: SolutionsComponent },
+  { path: 'blog', component: BlogComponent },
+  { path: 'blog-post', component: BlogPostComponent },
+  { path: 'pricing', component: PricingComponent },
+  { path: 'payment', component: PaymentComponent },
+  { path: 'faq', component: FaqComponent },
+  { path: 'user-dashboard', component: UserDashboardComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },

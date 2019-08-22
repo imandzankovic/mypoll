@@ -25,6 +25,12 @@ import { FooterComponent } from './footer/footer.component';
 import { FeaturesComponent } from './features/features.component';
 import { SolutionsComponent } from './solutions/solutions.component';
 import { HomeComponent } from './home/home.component';
+import { BlogComponent } from './blog/blog.component';
+import { BlogPostComponent } from './blog/blog-post/blog-post.component';
+import { PricingComponent } from './pricing/pricing.component';
+import { PaymentComponent } from './pricing/payment/payment.component';
+import { FaqComponent } from './faq/faq.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -45,7 +51,13 @@ export function tokenGetter() {
     FooterComponent,
     FeaturesComponent,
     SolutionsComponent,
-    HomeComponent
+    HomeComponent,
+    BlogComponent,
+    BlogPostComponent,
+    PricingComponent,
+    PaymentComponent,
+    FaqComponent,
+    UserDashboardComponent
   ],
   imports: [
     AppRoutingModule,
