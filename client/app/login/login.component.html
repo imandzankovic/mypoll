@@ -1,8 +1,12 @@
 <app-toast [message]="toast.message"></app-toast>
 
-<div class="card">
-  <h4 class="card-header">Login</h4>
-  <div class="card-body">
+<main class="page login-page">
+  <section class="clean-block clean-form dark">
+      <div class="container">
+          <div class="block-heading">
+              <h2 class="text-info">Log In</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p>
+          </div>
     <form [formGroup]="loginForm" (ngSubmit)="login()">
       <div class="input-group" [ngClass]="setClassEmail()">
         <div class="input-group-prepend">
@@ -13,6 +17,7 @@
         <input class="form-control" type="email" name="email"
                formControlName="email" placeholder="Email" autofocus>
       </div>
+      <br>
       <div class="input-group" [ngClass]="setClassPassword()">
         <div class="input-group-prepend">
           <span class="input-group-text">
@@ -22,9 +27,11 @@
         <input class="form-control" type="password" name="password"
                formControlName="password" placeholder="Password">
       </div>
-      <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">
+      <br>
+      <button class="btn btn-primary btn-block" type="submit" [disabled]="!loginForm.valid">
         <i class="fa fa-sign-in"></i> Login
       </button>
     </form>
   </div>
-</div>
+</section>
+</main>
