@@ -41,4 +41,7 @@ export class UserService {
     return this.http.delete(`/api/user/${user._id}`, { responseType: 'text' });
   }
 
+  getPres(): Observable<any[]> {
+    return this.http.get<any[]>('/api/add-presentation');
+  }
 }

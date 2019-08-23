@@ -2,6 +2,8 @@ import * as express from 'express';
 
 import CatCtrl from './controllers/cat';
 import UserCtrl from './controllers/user';
+var upload=require('./controllers/pres')
+var t=require('./testup/testup')
 
 export default function setRoutes(app) {
 
@@ -27,6 +29,12 @@ export default function setRoutes(app) {
   router.route('/user/:id').put(userCtrl.update);
   router.route('/user/:id').delete(userCtrl.delete);
 
+  router.route('/add-presentation').get(function(req, res, next) {
+    console.log('ebe')
+    upload.foo()
+    //t.foo();
+    res.send('r');
+  })
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
 
