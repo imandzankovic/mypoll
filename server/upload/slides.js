@@ -132,7 +132,7 @@ module.exports.createSlides = (authAndGHData) => new Promise((resolve, reject) =
     // Execute the requests
     slides.presentations.batchUpdate({
       auth: auth,
-      presentationId: presentation.id,
+      presentationId: '1EAYk18WDjIG-zp_0vLm3CsfQh_i8eXc67Jo2O9C6Vuc',
       resource: {
         requests: slideRequests
       }
