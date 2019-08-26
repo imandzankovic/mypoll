@@ -62,13 +62,13 @@ function createSlideJSON(licenseData, index) {
     // Inserts the license name, percent, and count in the title
     insertText: {
       objectId: `${ID_TITLE_SLIDE_TITLE}_${index}`,
-      text: `#${index + 1} ${licenseData.licenseName}  — ~${licenseData.percent}% (${commaNumber(licenseData.count)} repos)`
+      text: 'text exapmple 1'
     }
   }, {
     // Inserts the license in the text body paragraph
     insertText: {
       objectId: `${ID_TITLE_SLIDE_BODY}_${index}`,
-      text: licenseData.license
+      text: 'nananna'
     }
   }, {
     // Formats the slide paragraph's font
@@ -106,7 +106,8 @@ function createSlideJSON(licenseData, index) {
  */
 module.exports.createSlides = (authAndGHData) => new Promise((resolve, reject) => {
   console.log('creating slides...');
-  const [auth, ghData] = authAndGHData;
+  const auth = authAndGHData;
+  const ghData=[];
 
   // First copy the template slide from drive.
   drive.files.copy({

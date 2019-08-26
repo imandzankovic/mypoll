@@ -15,7 +15,7 @@
 require('dotenv').config();
 const auth = require('../upload/auth');
 const slides = require('../upload/slides');
-const license = require('../upload/licence');
+
 
 /**
  * Generates slides using the Google Slides, Drive, and BigQuery APIs.
@@ -25,7 +25,7 @@ module.exports={
   foo: function(){
     auth.getClientSecrets()
   .then(auth.authorize)
-  .then(license.getLicenseData)
+
   .then(slides.createSlides)
   .then(slides.openSlidesInBrowser)
   .then(() => {
