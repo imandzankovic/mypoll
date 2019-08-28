@@ -32,20 +32,38 @@ export class GoogleService {
 
     constructor(private zone: NgZone, private http: HttpClient) { }
 
+     store(token:any) : any {
+        let currentTime:number = (new Date()).getTime();      
+        localStorage.setItem(token, JSON.stringify(currentTime));
+    }
+
     authenticate(): any {
         return gapi.auth2.getAuthInstance()
             .signIn({ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/presentations" })
-            .then(function () { console.log("Sign-in successful"); },
+            .then(function () { console.log("Sign-in successful");
+             },
                 function (err) { console.error("Error signing in", err); });
+                
     }
     loadClient(): any {
         gapi.client.setApiKey('AIzaSyDJRkktyw3DlRFR6wwF_i7Ilz15I9DdrHo');
         return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/slides/v1/rest", "v1")
-            .then(function () { console.log("GAPI client loaded for API"); },
+            .then(function () { console.log("GAPI client loaded for API"); 
+            
+        console.log(gapi.client.getToken().access_token)
+        //this.store(gapi.client.getToken().access_token)
+        let currentTime:number = (new Date()).getTime();      
+        localStorage.setItem(gapi.client.getToken().access_token, JSON.stringify(currentTime));
+
+    },
                 function (err) { console.error("Error loading GAPI client for API", err); });
     }
     // Make sure the client is loaded and sign-in is complete before calling this method.
     execute(): any {
+        // gapi.load('client', () => {
+            console.log(gapi.client.getToken().access_token)
+            gapi.client.load('slides', 'v1', () => {
+                console.log(gapi.client)
         return gapi.client['slides'].presentations.create({
             "resource": {}
         })
@@ -57,7 +75,8 @@ export class GoogleService {
             },
                 function (err) { console.error("Execute error", err); });
 
-    }
+    })
+}
     init(): any {
         gapi.load("client:auth2", function () {
             gapi.auth2.init({ client_id: "353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com" });
