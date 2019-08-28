@@ -9,6 +9,7 @@ import { CatService } from './services/cat.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
 import {AuthenticatorService} from './services/authenticator.service';
+import {GoogleService} from './services/google.service';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
@@ -80,7 +81,8 @@ export function tokenGetter() {
     AuthGuardAdmin,
     CatService,
     UserService,
-    AuthenticatorService
+    AuthenticatorService,
+    GoogleService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
