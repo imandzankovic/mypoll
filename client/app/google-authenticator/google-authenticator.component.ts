@@ -34,8 +34,8 @@ import { User } from '../shared/models/user.model';
         <br>
              
 
-            <button (click)="click()">Klikaj</button>
-            <button (click)="execute()">Denk</button>
+            <button (click)="click()">Sign In First</button>
+            <button (click)="execute()">Add Presentation</button>
         </div>
        `
 })
