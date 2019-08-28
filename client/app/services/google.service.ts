@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../shared/models/user.model';
+import { resolve } from 'q';
 
 @Injectable()
 export class GoogleService {
@@ -30,36 +31,40 @@ export class GoogleService {
     ]
 
     constructor(private zone: NgZone, private http: HttpClient) { }
-    authorization(): any {
-        gapi.load('client', () => {
-            gapi.client.setApiKey(this.API_KEY);
-            gapi.client.load('compute', this.API_VERSION);
-            gapi.client.load('slides', 'v1');
 
-            gapi.auth.authorize({
-                client_id: this.CLIENT_ID,
-                scope: this.SCOPES,
-                immediate: false
-            }, function (authResult) {
-                console.log(authResult)
-                if (authResult && !authResult.error) {
-                    window.alert('Auth was successful!');
-                    gapi.client.load('slides', 'v1', function () {
-                        console.log(gapi.client)
-                        console.log(gapi.client['slides'].presentations)
-                        var file = gapi.client['slides'].presentations.get({ 'presentationId': '1yRce8YuFiTR0A4m9d4xd7s2-2FFEpoZNhrqFnTxYtRw' });
-                        file.execute(function (resp) {
-                            console.log("Response", resp.result.presentationId);
-                            console.log("https://docs.google.com/presentation/d/" + resp.result.presentationId + "/edit?usp=drivesdk")
-                        });
-
-                    });
-                } else {
-                    window.alert('Auth was not successful');
-                }
-            }
-            );
+    authenticate(): any {
+        return gapi.auth2.getAuthInstance()
+            .signIn({ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/presentations" })
+            .then(function () { console.log("Sign-in successful"); },
+                function (err) { console.error("Error signing in", err); });
+    }
+    loadClient(): any {
+        gapi.client.setApiKey('AIzaSyDJRkktyw3DlRFR6wwF_i7Ilz15I9DdrHo');
+        return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/slides/v1/rest", "v1")
+            .then(function () { console.log("GAPI client loaded for API"); },
+                function (err) { console.error("Error loading GAPI client for API", err); });
+    }
+    // Make sure the client is loaded and sign-in is complete before calling this method.
+    execute(): any {
+        return gapi.client['slides'].presentations.create({
+            "resource": {}
         })
+            .then(function (response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+                console.log("https://docs.google.com/presentation/d/" + response.result.presentationId + "/edit?usp=drivesdk")
+                window.open("https://docs.google.com/presentation/d/" + response.result.presentationId + "/edit?usp=drivesdk")
+            },
+                function (err) { console.error("Execute error", err); });
+
+    }
+    init(): any {
+        gapi.load("client:auth2", function () {
+            gapi.auth2.init({ client_id: "353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com" });
+        });
+    }
+    authenticateAndLoad(): any {
+        this.authenticate().then(this.loadClient)
     }
 
 }
