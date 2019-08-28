@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import CatCtrl from './controllers/cat';
 import UserCtrl from './controllers/user';
+//import Pres from './controllers/pres';
 
 export default function setRoutes(app) {
 
@@ -27,6 +28,10 @@ export default function setRoutes(app) {
   router.route('/user/:id').put(userCtrl.update);
   router.route('/user/:id').delete(userCtrl.delete);
 
+  //presi
+  // router.route('presentation').get(function(req,res){
+  //   Pres.authenticate().then(loadClient)
+  // })
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
 

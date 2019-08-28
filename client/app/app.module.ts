@@ -8,6 +8,7 @@ import { SharedModule } from './shared/shared.module';
 import { CatService } from './services/cat.service';
 import { UserService } from './services/user.service';
 import { AuthService } from './services/auth.service';
+import {AuthenticatorService} from './services/authenticator.service';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 // Components
@@ -31,6 +32,8 @@ import { PricingComponent } from './pricing/pricing.component';
 import { PaymentComponent } from './pricing/payment/payment.component';
 import { FaqComponent } from './faq/faq.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { PresentationComponent } from './presentation/presentation.component';
+import { GoogleAuthenticatorComponent } from './google-authenticator/google-authenticator.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -57,7 +60,9 @@ export function tokenGetter() {
     PricingComponent,
     PaymentComponent,
     FaqComponent,
-    UserDashboardComponent
+    UserDashboardComponent,
+    PresentationComponent,
+    GoogleAuthenticatorComponent
   ],
   imports: [
     AppRoutingModule,
@@ -74,7 +79,8 @@ export function tokenGetter() {
     AuthGuardLogin,
     AuthGuardAdmin,
     CatService,
-    UserService
+    UserService,
+    AuthenticatorService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
