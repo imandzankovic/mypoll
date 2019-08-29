@@ -22,10 +22,14 @@
             *ngIf="!auth.loggedIn">
             <i class="fa fa-user-plus"></i> Register
           </a></li>
-        <li class="nav-item" role="presentation"><a routerLink="/account" class="nav-link" routerLinkActive="active"
+          <li class="nav-item" role="presentation"><a routerLink="/user-dashboard" class="nav-link" routerLinkActive="active"
+            *ngIf="auth.loggedIn">
+            <i class="fa fa-user"></i> Dashboard
+          </a></li>
+        <!-- <li class="nav-item" role="presentation"><a routerLink="/account" class="nav-link" routerLinkActive="active"
             *ngIf="auth.loggedIn">
             <i class="fa fa-user"></i> Account ({{auth.currentUser.username}})
-          </a></li>
+          </a></li> -->
         <li class="nav-item" role="presentation"><a routerLink="/admin" class="nav-link" routerLinkActive="active"
             *ngIf="auth.loggedIn && auth.isAdmin">
             <i class="fa fa-lock"></i> Admin
