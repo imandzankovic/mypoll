@@ -44,7 +44,7 @@ import { Observable } from 'rxjs';
 export class GoogleAuthenticatorComponent implements OnInit {
 
     public authIsLoaded: boolean = false;
-    public isLoggedIn: boolean;
+    public isLoggedIn: string;
     public user: User;
 
 
@@ -52,10 +52,14 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
     click(): void {
         
-        if(this.isLoggedIn==false){
+        if(this.isLoggedIn!='true'){
             console.log(this.isLoggedIn) 
-            this.googleService.authenticateAndLoad();
-            this.execute();
+            this.googleService.authenticateAndLoad()
+            .then(() => {
+                //do stuff 
+                this.execute();
+              })
+           
         }
         else{
             console.log('exe')
@@ -64,10 +68,6 @@ export class GoogleAuthenticatorComponent implements OnInit {
        
     }
 
-    click1(): void {
-       
-      this.googleService.isLoggedIn.subscribe(isLoggedIn => console.log('Value is : ' + isLoggedIn));
-    }
 
     execute(): void {
         this.googleService.execute();
@@ -75,8 +75,10 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
     ngOnInit() {
         this.googleService.init();
-        this.googleService.isLoggedIn.subscribe(i=> this.isLoggedIn=i)
+        this.isLoggedIn=localStorage.getItem('loggedin')
         console.log(this.isLoggedIn)
+        // this.isLoggedIn=this.googleService.loggedin
+        // console.log(this.isLoggedIn)
     }
 
 };

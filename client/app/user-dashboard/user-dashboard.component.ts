@@ -16,7 +16,7 @@ import { User } from '../shared/models/user.model';
 export class UserDashboardComponent implements OnInit {
 
   public authIsLoaded: boolean = false;
-  public isLoggedIn: boolean;
+  public isLoggedIn: string;
   user: User;
   isLoading = true;
 
@@ -26,24 +26,24 @@ export class UserDashboardComponent implements OnInit {
               public toast: ToastComponent,
               private userService: UserService) { }
 
-  click(): void {
-      
-      if(this.isLoggedIn==false){
-          console.log(this.isLoggedIn) 
-          this.googleService.authenticateAndLoad();
-          this.execute();
-      }
-      else{
-          console.log('exe')
-          this.execute();
-      }
-     
-  }
+              click(): void {
+        
+                if(this.isLoggedIn!='true'){
+                    console.log(this.isLoggedIn) 
+                    this.googleService.authenticateAndLoad()
+                    .then(() => {
+                        //do stuff 
+                        this.execute();
+                      })
+                   
+                }
+                else{
+                    console.log('exe')
+                    this.execute();
+                }
+               
+            }
 
-  click1(): void {
-     
-    this.googleService.isLoggedIn.subscribe(isLoggedIn => console.log('Value is : ' + isLoggedIn));
-  }
 
   execute(): void {
       this.googleService.execute();
@@ -66,9 +66,9 @@ export class UserDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-      this.googleService.init();
-      this.googleService.isLoggedIn.subscribe(i=> this.isLoggedIn=i)
-      console.log(this.isLoggedIn)
+    this.googleService.init();
+    this.isLoggedIn=localStorage.getItem('loggedin')
+    console.log(this.isLoggedIn)
   }
 
 

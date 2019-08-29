@@ -10,6 +10,7 @@ import { resolve } from 'q';
 export class GoogleService {
 
     public loggedIn = new BehaviorSubject<boolean>(false);
+    loggedin = 'false';
     public PROJECT_ID = 'YOUR_PROJECT_ID';
     public CLIENT_ID = '353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com';
     public API_KEY = 'AIzaSyDJRkktyw3DlRFR6wwF_i7Ilz15I9DdrHo';
@@ -35,8 +36,9 @@ export class GoogleService {
 
     constructor( private http: HttpClient)  { }
    
-    get isLoggedIn() : any{
-        return this.loggedIn.asObservable();
+    get isLoggedIn() {
+        //return this.loggedIn.asObservable();
+        return this.loggedin;
     }
 
     authenticate(): any {
@@ -64,7 +66,7 @@ export class GoogleService {
                 //this.store(gapi.client.getToken().access_token)
                 let currentTime: number = (new Date()).getTime();
                 localStorage.setItem(gapi.client.getToken().access_token, JSON.stringify(currentTime));
-                
+                localStorage.setItem('loggedin', 'true');
                 
                 console.log("GAPI client loaded for API");
             },
@@ -73,9 +75,10 @@ export class GoogleService {
             }
     // Make sure the client is loaded and sign-in is complete before calling this method.
     execute(): any {
-        console.log('ahaaaaa' + this.loggedIn.value)
-        this.loggedIn.next(true);
-        console.log(this.loggedIn.value)
+        //localStorage.setItem('loggedin', 'true');
+        // console.log('ahaaaaa' + this.loggedIn.value)
+        // this.loggedIn.next(true);
+        // console.log(this.loggedIn.value)
         // gapi.load('client', () => {
         //console.log(gapi.client.getToken().access_token)
         gapi.client.load('slides', 'v1', () => {
@@ -98,10 +101,16 @@ export class GoogleService {
             gapi.auth2.init({ client_id: "353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com" });
         });
     }
-    authenticateAndLoad(): any {
+  async authenticateAndLoad(){
+
+    //    return new Promise(function(resolve, reject) {
+            this.authenticate().then(this.loadClient) 
+        //     resolve('resolved')
+        //   });
         // if(!this.isLoggedIn){
         //    console.log(this.isLoggedIn)
-        this.authenticate().then(this.loadClient)  
+       
+       // this.authenticate().then(this.loadClient)  
     //     }
     //    else{
     //        console.log('nije logged in')
