@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticatorService } from '../services/authenticator.service'
 import { GoogleService } from '../services/google.service'
 import { User } from '../shared/models/user.model';
+import { __values } from 'tslib';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -33,31 +35,38 @@ import { User } from '../shared/models/user.model';
         <br>
         <br>
              
-
+            <button (click)="click1()">Sign In console</button>
             <button (click)="click()">Sign In First</button>
-            <button (click)="execute()">Add Presentation</button>
+           
         </div>
        `
 })
 export class GoogleAuthenticatorComponent implements OnInit {
 
     public authIsLoaded: boolean = false;
-    public isLoggedIn: boolean = false;
+    public isLoggedIn: boolean;
     public user: User;
 
 
     constructor(private authenticatorService: AuthenticatorService, private googleService: GoogleService) { }
 
-    signIn(): void {
-        this.authenticatorService.signIn();
-
-    };
-
-    signOut(): void {
-        this.authenticatorService.signOut();
-    }
     click(): void {
-        this.googleService.authenticateAndLoad();
+        
+        if(this.isLoggedIn==false){
+            console.log(this.isLoggedIn) 
+            this.googleService.authenticateAndLoad();
+            this.execute();
+        }
+        else{
+            console.log('exe')
+            this.execute();
+        }
+       
+    }
+
+    click1(): void {
+       
+      this.googleService.isLoggedIn.subscribe(isLoggedIn => console.log('Value is : ' + isLoggedIn));
     }
 
     execute(): void {
@@ -66,6 +75,8 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
     ngOnInit() {
         this.googleService.init();
+        this.googleService.isLoggedIn.subscribe(i=> this.isLoggedIn=i)
+        console.log(this.isLoggedIn)
     }
 
 };

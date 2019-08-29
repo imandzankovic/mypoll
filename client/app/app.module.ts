@@ -77,12 +77,13 @@ export function tokenGetter() {
   ],
   providers: [
     AuthService,
+    GoogleService,
     AuthGuardLogin,
     AuthGuardAdmin,
     CatService,
     UserService,
     AuthenticatorService,
-    GoogleService
+    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
