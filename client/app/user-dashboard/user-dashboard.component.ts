@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵsetCurrentInjector } from '@angular/core';
 import { GoogleService } from '../services/google.service'
-//import { User } from '../shared/models/user.model';
 import { __values } from 'tslib';
-import { Observable } from 'rxjs';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../shared/models/user.model';
+
 
 @Component({
   selector: 'app-user-dashboard',
@@ -16,39 +15,36 @@ import { User } from '../shared/models/user.model';
 export class UserDashboardComponent implements OnInit {
 
   public authIsLoaded: boolean = false;
-  public isLoggedIn: string;
+  public isLoggedIn: string = 'false';
+  public presentationId;
   user: User;
   isLoading = true;
 
 
-  constructor( private googleService: GoogleService,
+  constructor(private googleService: GoogleService,
     private auth: AuthService,
-              public toast: ToastComponent,
-              private userService: UserService) { }
-
-              click(): void {
-        
-                if(this.isLoggedIn!='true'){
-                    console.log(this.isLoggedIn) 
-                    this.googleService.authenticateAndLoad()
-                    .then(() => {
-                        //do stuff 
-                        this.execute();
-                      })
-                   
-                }
-                else{
-                    console.log('exe')
-                    this.execute();
-                }
-               
-            }
+    public toast: ToastComponent,
+    private userService: UserService) { }
 
 
-  execute(): void {
-      this.googleService.execute();
+
+  click() {
+    console.log(this.isLoggedIn)
+    this.googleService.authenticateAndLoad()
+    this.isLoggedIn = (localStorage.getItem('loggedin'))
+    this.googleService.isLoggedIn.subscribe(value => {
+      this.isLoggedIn = value;
+      console.log(value)
+    });
   }
 
+  execute(): void {
+    this.googleService.execute();
+  }
+getPresentations()
+{
+  this.googleService.getPresentations();
+}
   getUser() {
     this.userService.getUser(this.auth.currentUser).subscribe(
       data => this.user = data,
@@ -67,8 +63,10 @@ export class UserDashboardComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.googleService.init();
-    this.isLoggedIn=localStorage.getItem('loggedin')
-    console.log(this.isLoggedIn)
+    this.googleService.isLoggedIn.subscribe(value => {
+      this.isLoggedIn = value;
+      console.log(value)
+    });
   }
 
 

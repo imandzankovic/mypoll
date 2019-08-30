@@ -3,7 +3,9 @@ import { AuthenticatorService } from '../services/authenticator.service'
 import { GoogleService } from '../services/google.service'
 import { User } from '../shared/models/user.model';
 import { __values } from 'tslib';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { CatService } from '../services/cat.service';
+import { when } from 'q';
 
 
 @Component({
@@ -25,60 +27,71 @@ import { Observable } from 'rxjs';
     //         </ng-container>
     //         <h2 *ngIf="authIsLoaded && isLoggedIn"> Signed in as {{user.username}} </h2>`
     template: `
-    <br>
-    <br>
-    <br>
-    <br>
        <div>
         <br>
         <br>
         <br>
         <br>
-             
-            <button (click)="click1()">Sign In console</button>
-            <button (click)="click()">Sign In First</button>
+        <button (click)="daj()">Daj</button>
+            <button  *ngIf="isLoggedIn == 'true'" (click)="execute()">Execute</button>
+            <button *ngIf="isLoggedIn !='true'" (click)="click()">Sign In First</button>
            
         </div>
        `
 })
 export class GoogleAuthenticatorComponent implements OnInit {
 
-    public authIsLoaded: boolean = false;
-    public isLoggedIn: string;
-    public user: User;
+    public isLoggedIn: string = 'false';
+    public presentations;
 
 
-    constructor(private authenticatorService: AuthenticatorService, private googleService: GoogleService) { }
+    constructor(private googleService: GoogleService, private catService: CatService) { }
 
-    click(): void {
-        
-        if(this.isLoggedIn!='true'){
-            console.log(this.isLoggedIn) 
-            this.googleService.authenticateAndLoad()
-            .then(() => {
-                //do stuff 
-                this.execute();
-              })
-           
-        }
-        else{
-            console.log('exe')
-            this.execute();
-        }
-       
+    click() {
+        console.log(this.isLoggedIn)
+        this.googleService.authenticateAndLoad()
+        this.isLoggedIn = (localStorage.getItem('loggedin'))
+        this.googleService.isLoggedIn.subscribe(value => {
+            this.isLoggedIn = value;
+            console.log(value)
+        });
     }
 
-
-    execute(): void {
-        this.googleService.execute();
+    execute() {
+        this.googleService.execute()
     }
+
+    daj(): any {
+        console.log('jesil')
+        this.getPresentations();
+
+    }
+    getPresentations() {
+        this.googleService.getPresentations().subscribe(
+            data => this.presentations = data,
+            error => console.log(error),
+
+        );
+    }
+    addPresentation() {
+        console.log('uslo')
+        this.googleService.addPresentation().subscribe(
+            res => {
+                this.presentations.push(res);
+
+                console.log('item added successfully.', 'success');
+            },
+            error => console.log(error)
+        );
+    }
+
 
     ngOnInit() {
         this.googleService.init();
-        this.isLoggedIn=localStorage.getItem('loggedin')
-        console.log(this.isLoggedIn)
-        // this.isLoggedIn=this.googleService.loggedin
-        // console.log(this.isLoggedIn)
+        this.googleService.isLoggedIn.subscribe(value => {
+            this.isLoggedIn = value;
+            console.log(value)
+        });
     }
 
 };

@@ -38,7 +38,12 @@
 
                   
               </div>
-                <button type="button" class="btn btn-primary btn-lg"(click)="click()"><i class="icon-plus"></i> Add Presentation</button></div>
+                <button type="button" class="btn btn-primary btn-lg" *ngIf="isLoggedIn !='true'" (click)="click()"><i class="icon-plus"></i>Sign In with Google</button>
+                <button type="button" class="btn btn-primary btn-lg" *ngIf="isLoggedIn == 'true'" (click)="execute()"><i class="icon-plus"></i>Add Presentation</button>
+              
+                <button type="button" class="btn btn-primary btn-lg" (click)="getPresentations()"><i class="icon-plus"></i>Get Presentations</button>
+              </div>
+                
               <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 
                   <app-loading [condition]="isLoading"></app-loading>
