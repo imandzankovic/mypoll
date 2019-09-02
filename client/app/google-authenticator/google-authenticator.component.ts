@@ -6,6 +6,8 @@ import { __values } from 'tslib';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { CatService } from '../services/cat.service';
 import { when } from 'q';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { Presentation } from '../shared/models/presentation.model';
 
 
 @Component({
@@ -26,26 +28,29 @@ import { when } from 'q';
     //             <button *ngIf="isLoggedIn" (click)="signOut()">Sign Out</button>
     //         </ng-container>
     //         <h2 *ngIf="authIsLoaded && isLoggedIn"> Signed in as {{user.username}} </h2>`
-    template: `
-       <div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <button (click)="daj()">Daj</button>
-            <button  *ngIf="isLoggedIn == 'true'" (click)="execute()">Execute</button>
-            <button *ngIf="isLoggedIn !='true'" (click)="click()">Sign In First</button>
+    // template: `
+    //    <div>
+    //     <br>
+    //     <br>
+    //     <br>
+    //     <br>
+    //     <button (click)="daj()">Daj</button>
+    //         <button  *ngIf="isLoggedIn == 'true'" (click)="execute()">Execute</button>
+    //         <button *ngIf="isLoggedIn !='true'" (click)="click()">Sign In First</button>
            
-        </div>
-       `
+    //     </div>
+    //    `
+    templateUrl:'./google-authenticator.component.html'
 })
 export class GoogleAuthenticatorComponent implements OnInit {
 
+    public pr;
     public isLoggedIn: string = 'false';
-    public presentations;
+    presentations: Presentation[] = [];
+    presis:any;
 
 
-    constructor(private googleService: GoogleService, private catService: CatService) { }
+    constructor(private googleService: GoogleService) { }
 
     click() {
         console.log(this.isLoggedIn)
@@ -58,7 +63,15 @@ export class GoogleAuthenticatorComponent implements OnInit {
     }
 
     execute() {
-        this.googleService.execute()
+       
+     var m = this.googleService.execute().then(function(value) {
+            // this.addPresentation(value)
+            console.log(value);
+            return value;
+          
+          }).then((response)=> this.addPresentation(response))
+
+         
     }
 
     daj(): any {
@@ -73,18 +86,30 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
         );
     }
-    addPresentation() {
+
+    getPresentation(presentation) {
+        console.log('udjoh ja' + presentation._id)
+        this.googleService.getPresentation(presentation._id).subscribe(
+            data => this.pr = data,
+            error => console.log(error),
+
+        );
+    }
+    addPresentation(presentation) {
         console.log('uslo')
-        this.googleService.addPresentation().subscribe(
+        console.log(presentation.presentationId)
+        console.log(presentation.title)
+        var Id=presentation.presentationId;
+        var title=presentation.title
+        this.googleService.addPresentation(Id,title).subscribe(
             res => {
                 this.presentations.push(res);
-
+                console.log(res)
                 console.log('item added successfully.', 'success');
             },
             error => console.log(error)
         );
     }
-
 
     ngOnInit() {
         this.googleService.init();
@@ -92,6 +117,13 @@ export class GoogleAuthenticatorComponent implements OnInit {
             this.isLoggedIn = value;
             console.log(value)
         });
+       
+            this.googleService.getPresentations().subscribe(
+                data => this.presis = data,
+                error => console.log(error),
+    
+            );
+           
     }
 
 };

@@ -11,7 +11,6 @@ abstract class BaseCtrl {
       return res.status(400).json({ error: err.message });
     }
   }
-
   // Count all
   count = async (req, res) => {
     try {
@@ -26,6 +25,7 @@ abstract class BaseCtrl {
   insert = async (req, res) => {
     try {
       const obj = await new this.model(req.body).save();
+      console.log(req.body)
       res.status(201).json(obj);
     } catch (err) {
       return res.status(400).json({ error: err.message });

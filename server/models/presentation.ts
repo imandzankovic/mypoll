@@ -1,7 +1,8 @@
 import * as mongoose from 'mongoose';
 
 const presentationSchema = new mongoose.Schema({
- id:String
+ presentationId:String,
+ title:String
 });
 
 const Presentation = mongoose.model('Presentation', presentationSchema);

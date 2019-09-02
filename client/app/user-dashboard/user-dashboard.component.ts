@@ -5,6 +5,7 @@ import { ToastComponent } from '../shared/toast/toast.component';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 import { User } from '../shared/models/user.model';
+import { Presentation } from '../shared/models/presentation.model';
 
 
 @Component({
@@ -19,6 +20,10 @@ export class UserDashboardComponent implements OnInit {
   public presentationId;
   user: User;
   isLoading = true;
+
+  public pr;
+  presentations: Presentation[] = [];
+  presis:any;
 
 
   constructor(private googleService: GoogleService,
@@ -38,13 +43,49 @@ export class UserDashboardComponent implements OnInit {
     });
   }
 
-  execute(): void {
-    this.googleService.execute();
-  }
-getPresentations()
-{
-  this.googleService.getPresentations();
+  execute() {
+       
+    var m = this.googleService.execute().then(function(value) {
+           // this.addPresentation(value)
+           console.log(value);
+           return value;
+         
+         }).then((response)=> this.addPresentation(response))
+
+        
+   }
+   getPresentations() {
+    this.googleService.getPresentations().subscribe(
+        data => this.presentations = data,
+        error => console.log(error),
+
+    );
 }
+
+getPresentation(presentation) {
+    console.log('udjoh ja' + presentation._id)
+    this.googleService.getPresentation(presentation._id).subscribe(
+        data => this.pr = data,
+        error => console.log(error),
+
+    );
+}
+addPresentation(presentation) {
+    console.log('uslo')
+    console.log(presentation.presentationId)
+    console.log(presentation.title)
+    var Id=presentation.presentationId;
+    var title=presentation.title
+    this.googleService.addPresentation(Id,title).subscribe(
+        res => {
+            this.presentations.push(res);
+            console.log(res)
+            console.log('item added successfully.', 'success');
+        },
+        error => console.log(error)
+    );
+}
+
   getUser() {
     this.userService.getUser(this.auth.currentUser).subscribe(
       data => this.user = data,
@@ -67,6 +108,11 @@ getPresentations()
       this.isLoggedIn = value;
       console.log(value)
     });
+         this.googleService.getPresentations().subscribe(
+                data => this.presis = data,
+                error => console.log(error),
+    
+            );
   }
 
 

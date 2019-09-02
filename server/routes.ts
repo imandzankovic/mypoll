@@ -33,6 +33,8 @@ export default function setRoutes(app) {
   //presi
   router.route('/presentation').post(presentationCtrl.insert);
   router.route('/presentation').get(presentationCtrl.getAll);
+  router.route('/presentation/:id').get(presentationCtrl.get);
+  router.route('/presentation/:id').delete(presentationCtrl.delete);
   // Apply the routes to our application with the prefix /api
   app.use('/api', router);
 
