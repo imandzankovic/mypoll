@@ -38,29 +38,29 @@
 
                   
               </div>
-                <button type="button" class="btn btn-primary btn-lg" *ngIf="isLoggedIn !='true'" (click)="click()"><i class="icon-plus"></i>Sign In with Google</button>
-                <button type="button" class="btn btn-primary btn-lg" *ngIf="isLoggedIn == 'true'" (click)="execute()"><i class="icon-plus"></i>Add Presentation</button>
+                <button type="button" class="btn btn-primary btn-primary" *ngIf="isLoggedIn !='true'" (click)="click()"><i class="icon-plus"></i>Sign In with Google</button>
+                <button type="button" class="btn btn-primary btn-primary" *ngIf="isLoggedIn == 'true'" (click)="execute()"><i class="icon-plus"></i>Add Presentation</button>
               
                 <br>
                 <br>
                 <!-- <button type="button" class="btn btn-primary btn-lg"  *ngIf="isLoggedIn == 'true'" (click)="getPresentations()"><i class="icon-plus"></i>Get Presentations</button> -->
-                <div  *ngIf="isLoggedIn == 'true'" class="card mb-3">
+                <div  *ngIf="isLoggedIn == 'true'" class="card mb-2">
                   <h4 class="card-header">Current Presentations ({{presis.length}})</h4>
                   <div class="card-body">
                     <table class="table table-bordered">
                       <thead class="thead-light">
                         <tr>
-                          <th scope="col">Id</th>
+                          <th scope="col">Title</th>
                           <!-- <th scope="col">Age</th>
                           <th scope="col">Weight</th> -->
                           <th scope="col">Actions</th> 
                         </tr>
                       </thead>
-                      <tbody>
+                      <!-- <tbody>
                         <tr>
                           <td colspan="4">There are no presentations in the DB. </td>
                         </tr>  
-                      </tbody>
+                      </tbody> -->
                       <tbody >
                         <tr *ngFor="let pres of presis">
                           <td>{{pres.title}}</td>
