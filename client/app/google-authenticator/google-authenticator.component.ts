@@ -8,6 +8,7 @@ import { CatService } from '../services/cat.service';
 import { when } from 'q';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { Presentation } from '../shared/models/presentation.model';
+import { PresentationService } from '../services/presentation.service';
 
 
 @Component({
@@ -37,20 +38,20 @@ import { Presentation } from '../shared/models/presentation.model';
     //     <button (click)="daj()">Daj</button>
     //         <button  *ngIf="isLoggedIn == 'true'" (click)="execute()">Execute</button>
     //         <button *ngIf="isLoggedIn !='true'" (click)="click()">Sign In First</button>
-           
+
     //     </div>
     //    `
-    templateUrl:'./google-authenticator.component.html'
+    templateUrl: './google-authenticator.component.html'
 })
 export class GoogleAuthenticatorComponent implements OnInit {
 
     public pr;
     public isLoggedIn: string = 'false';
     presentations: Presentation[] = [];
-    presis:any;
+    presis: any;
 
 
-    constructor(private googleService: GoogleService) { }
+    constructor(private googleService: GoogleService, private presentationService: PresentationService) { }
 
     click() {
         console.log(this.isLoggedIn)
@@ -63,15 +64,14 @@ export class GoogleAuthenticatorComponent implements OnInit {
     }
 
     execute() {
-       
-     var m = this.googleService.execute().then(function(value) {
-            // this.addPresentation(value)
+
+        var m = this.googleService.execute().then(function (value) {
             console.log(value);
             return value;
-          
-          }).then((response)=> this.addPresentation(response))
 
-         
+        }).then((response) => this.addPresentation(response))
+
+
     }
 
     daj(): any {
@@ -80,7 +80,7 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
     }
     getPresentations() {
-        this.googleService.getPresentations().subscribe(
+        this.presentationService.getPresentations().subscribe(
             data => this.presentations = data,
             error => console.log(error),
 
@@ -89,7 +89,7 @@ export class GoogleAuthenticatorComponent implements OnInit {
 
     getPresentation(presentation) {
         console.log('udjoh ja' + presentation._id)
-        this.googleService.getPresentation(presentation._id).subscribe(
+        this.presentationService.getPresentation(presentation._id).subscribe(
             data => this.pr = data,
             error => console.log(error),
 
@@ -99,9 +99,9 @@ export class GoogleAuthenticatorComponent implements OnInit {
         console.log('uslo')
         console.log(presentation.presentationId)
         console.log(presentation.title)
-        var Id=presentation.presentationId;
-        var title=presentation.title
-        this.googleService.addPresentation(Id,title).subscribe(
+        var Id = presentation.presentationId;
+        var title = presentation.title
+        this.presentationService.addPresentation(Id, title).subscribe(
             res => {
                 this.presentations.push(res);
                 console.log(res)
@@ -117,13 +117,13 @@ export class GoogleAuthenticatorComponent implements OnInit {
             this.isLoggedIn = value;
             console.log(value)
         });
-       
-            this.googleService.getPresentations().subscribe(
-                data => this.presis = data,
-                error => console.log(error),
-    
-            );
-           
+
+        this.presentationService.getPresentations().subscribe(
+            data => this.presis = data,
+            error => console.log(error),
+
+        );
+
     }
 
 };

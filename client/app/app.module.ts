@@ -35,6 +35,7 @@ import { FaqComponent } from './faq/faq.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
 import { PresentationComponent } from './presentation/presentation.component';
 import { GoogleAuthenticatorComponent } from './google-authenticator/google-authenticator.component';
+import { PresentationService } from './services/presentation.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -78,6 +79,7 @@ export function tokenGetter() {
   providers: [
     AuthService,
     GoogleService,
+    PresentationService,
     AuthGuardLogin,
     AuthGuardAdmin,
     CatService,

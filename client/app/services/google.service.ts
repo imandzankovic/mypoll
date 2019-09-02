@@ -1,20 +1,13 @@
-
-import { Injectable, Component, OnInit, NgZone } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-import { Presentation } from '../shared/models/presentation.model';
-import { response } from 'express';
-import { Cat } from '../shared/models/cat.model';
 
-export var presentations: any;
+
 @Injectable()
 export class GoogleService {
 
 
     public loggedIn = new BehaviorSubject<string>(localStorage.getItem('loggedin'));
-    //public presentationId;
     loggedin;
     public PROJECT_ID = 'YOUR_PROJECT_ID';
     public CLIENT_ID = '353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com';
@@ -44,8 +37,6 @@ export class GoogleService {
     get isLoggedIn() {
         return this.loggedIn.asObservable();
     }
-
-
 
     authenticate(): any {
         return gapi.auth2.getAuthInstance()
@@ -80,10 +71,7 @@ export class GoogleService {
                     "resource": {}
                 })
                     .then(function (response) {
-
                         window.open("https://docs.google.com/presentation/d/" + response.result.presentationId + "/edit?usp=drivesdk")
-
-                        //presentations=response.result.presentationId;
                         resolve(response.result)
                     },
                         function (err) { console.error("Execute error", err); });
@@ -101,8 +89,6 @@ export class GoogleService {
                     .then(function (response) {
 
                         window.open("https://docs.google.com/presentation/d/" + response.result.presentationId + "/edit?usp=drivesdk")
-
-                        //presentations=response.result.presentationId;
                         resolve(response.result)
                     },
                         function (err) { console.error("Execute error", err); });
@@ -110,44 +96,10 @@ export class GoogleService {
         });
     }
 
-
-
-
     init(): any {
         gapi.load("client:auth2", function () {
             gapi.auth2.init({ client_id: "353142091842-clls97ae475jfdflp0v4d7bn0g4agtsj.apps.googleusercontent.com" });
         });
-    } 
-
-    addPresentation(Id: string,title :string): Observable<Presentation> {
-        console.log(Id)
-        var p = new Presentation();
-        p.presentationId = Id;
-        p.title=title;
-        
-        return this.http.post<Presentation>('/api/presentation', p);
-    }
-
-    getPresentations(): Observable<Presentation[]> {
-        console.log('uslo u func')
-
-        return this.http.get<Presentation[]>('/api/presentation').pipe(
-            tap(data => console.log('All' + JSON.stringify(data)))
-        );
-    }
-
-    getCat(cat: Cat): Observable<Cat> {
-        return this.http.get<Cat>(`/api/cat/${cat._id}`);
-      }
-
-    getPresentation(presentation : any): Observable<Presentation> {
-        console.log('presi by id')
-        console.log(presentation)
-
-        return this.http.get<Presentation>(`/api/presentation/${presentation}`).pipe(
-            // tap(data => console.log('All' + JSON.stringify(data)))
-            tap(data => this.getPresentationsFromDrive(data.presentationId)))
-        // );
     }
 
     authenticateAndLoad() {
